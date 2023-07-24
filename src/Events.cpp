@@ -23,7 +23,6 @@ namespace Events {
                         const auto idx = dist(rng);
                         const auto undie = Utility::underwear[idx];
                         actor->AddObjectToContainer(undie, nullptr, 1, nullptr);
-                        actor->InitInventoryIfRequired();
                         const auto inv = actor->GetInventory([](RE::TESBoundObject& obj) { return obj.IsArmor(); });
                         if (inv.contains(undie)) {
                             const auto manager = RE::ActorEquipManager::GetSingleton();
