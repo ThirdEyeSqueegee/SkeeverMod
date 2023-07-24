@@ -20,10 +20,16 @@ namespace Events {
                         logger::info("Stripped body slot for {}", actor->GetName());
                         actor->AddObjectToContainer(Utility::red, nullptr, 1, nullptr);
                         logger::info("Added underwear to {}'s inventory", actor->GetName());
-                        const auto manager = RE::ActorEquipManager::GetSingleton();
-                        manager->EquipObject(actor, Utility::red, nullptr, 1, nullptr,
-                                             true, true, false, true);
-                        logger::info("Equipped underwear to {}", actor->GetName());
+                        const auto inv = actor->GetInventory([](RE::TESBoundObject& obj) { return obj.IsArmor(); });
+                        if (inv.contains(Utility::red)) {
+                            const auto manager = RE::ActorEquipManager::GetSingleton();
+                            std::random_device rd;
+                            std::mt19937 rng(rd());
+                            std::uniform_int_distribution dist(0, 3);
+                            manager->EquipObject(actor, Utility::underwear[dist(rng)], nullptr, 1, nullptr,
+                                                 true, true, false, true);
+                            logger::info("Equipped underwear to {}", actor->GetName());
+                        }
                     }
                 }
             }

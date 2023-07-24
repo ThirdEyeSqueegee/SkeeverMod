@@ -21,6 +21,8 @@ public:
     inline static RE::TESObjectARMO* blue = nullptr;
     inline static RE::TESObjectARMO* yellow = nullptr;
 
+    inline static std::vector<RE::TESObjectARMO*> underwear = {red, green, blue, yellow};
+
     static void InitUnderwear() {
         const auto handler = RE::TESDataHandler::GetSingleton();
 
