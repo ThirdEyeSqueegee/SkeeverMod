@@ -13,16 +13,19 @@ namespace Events {
 
         if (a_event->equipped) return RE::BSEventNotifyControl::kContinue;
 
-        if (const auto actor = a_event->actor->As<RE::Actor>(); !actor->IsPlayerRef() && actor->Is3DLoaded()) {
-            if (const auto item = RE::TESForm::LookupByID<RE::TESObjectARMO>(a_event->baseObject);
-                item->GetSlotMask() == RE::BGSBipedObjectForm::BipedObjectSlot::kBody) {
-                logger::info("Stripped body slot for {}", actor->GetName());
-                actor->AddObjectToContainer(Utility::red, nullptr, 1, nullptr);
-                logger::info("Added underwear to {}'s inventory", actor->GetName());
-                const auto manager = RE::ActorEquipManager::GetSingleton();
-                manager->EquipObject(actor, Utility::red, nullptr, 1, nullptr,
-                                     true, true, false, true);
-                logger::info("Equipped underwear to {}", actor->GetName());
+        if (const auto actor = a_event->actor->As<RE::Actor>()) {
+            if (!actor->IsPlayerRef() && actor->Is3DLoaded()) {
+                if (const auto item = RE::TESForm::LookupByID<RE::TESObjectARMO>(a_event->baseObject)) {
+                    if (item->GetSlotMask() == RE::BGSBipedObjectForm::BipedObjectSlot::kBody) {
+                        logger::info("Stripped body slot for {}", actor->GetName());
+                        actor->AddObjectToContainer(Utility::red, nullptr, 1, nullptr);
+                        logger::info("Added underwear to {}'s inventory", actor->GetName());
+                        const auto manager = RE::ActorEquipManager::GetSingleton();
+                        manager->EquipObject(actor, Utility::red, nullptr, 1, nullptr,
+                                             true, true, false, true);
+                        logger::info("Equipped underwear to {}", actor->GetName());
+                    }
+                }
             }
         }
 
