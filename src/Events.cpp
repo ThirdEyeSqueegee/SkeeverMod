@@ -32,9 +32,8 @@ namespace Events {
                                 logger::info("{} has underwear in inventory", actor->GetName());
                                 const auto manager = RE::ActorEquipManager::GetSingleton();
                                 SKSE::GetTaskInterface()->AddTask([manager, actor, undie] {
-                                    manager->EquipObject(actor, undie, nullptr, 1, nullptr, true, false, false, false);
+                                    manager->EquipObject(actor, undie, nullptr, 1, nullptr, true, true, false, true);
                                     actor->Update3DModel();
-                                    actor->InitInventoryIfRequired();
                                 });
                                 logger::info("Equipped underwear to {}", actor->GetName());
                             }
@@ -51,5 +50,37 @@ namespace Events {
         const auto holder = RE::ScriptEventSourceHolder::GetSingleton();
         holder->AddEventSink(GetSingleton());
         logger::info("Registered equip event handler");
+    }
+
+    OnCellAttachEventHandler* OnCellAttachEventHandler::GetSingleton() {
+        static OnCellAttachEventHandler singleton;
+        return std::addressof(singleton);
+    }
+
+    RE::BSEventNotifyControl OnCellAttachEventHandler::ProcessEvent(const RE::TESCellAttachDetachEvent* a_event,
+                                                                    RE::BSTEventSource<RE::TESCellAttachDetachEvent>* a_eventSource) {
+        if (!a_event) return RE::BSEventNotifyControl::kContinue;
+
+        if (!a_event->attached) return RE::BSEventNotifyControl::kContinue;
+
+        if (const auto actor = a_event->reference->As<RE::Actor>(); !actor->IsPlayerRef()) {
+            logger::info("Actor {} loaded", actor->GetName());
+            const auto underwear = actor->GetInventory([](RE::TESBoundObject& item) { return "Underwear"sv.compare(item.GetName()); }, true);
+            if (underwear.size()) {
+                logger::info("{} has underwear in inventory on load", actor->GetName());
+                for (const auto& undie : underwear) {
+                    actor->RemoveItem(undie.first, 1, RE::ITEM_REMOVE_REASON::kRemove, nullptr, nullptr);
+                    logger::info("Removed underwear from {} on load", actor->GetName());
+                }
+            }
+        }
+
+        return RE::BSEventNotifyControl::kContinue;
+    }
+
+    void OnCellAttachEventHandler::Register() {
+        const auto holder = RE::ScriptEventSourceHolder::GetSingleton();
+        holder->AddEventSink(GetSingleton());
+        logger::info("Registered cell attach event handler");
     }
 }

@@ -38,4 +38,9 @@ class Utility {
 
         logger::info("Cached underwear");
     }
+
+    static void RemoveOldUnderwear() {
+        const auto handler = RE::TESDataHandler::GetSingleton();
+        handler->GetFormArray(RE::FormType::ActorCharacter);
+    }
 };
