@@ -27,12 +27,13 @@ namespace Events {
                             const auto undie = Utility::underwear[idx];
                             actor->AddObjectToContainer(undie, nullptr, 1, nullptr);
                             logger::info("Added {} to {}'s inventory", undie->GetName(), actor->GetName());
-                            const auto inv = actor->GetInventory([](RE::TESBoundObject& obj) { return obj.IsArmor(); }, true);
-                            if (inv.contains(undie)) {
+                            if (const auto inv = actor->GetInventory([](RE::TESBoundObject& obj) { return obj.IsArmor(); }, true);
+                                inv.contains(undie)) {
                                 logger::info("{} has underwear in inventory", actor->GetName());
                                 const auto manager = RE::ActorEquipManager::GetSingleton();
                                 SKSE::GetTaskInterface()->AddTask([manager, actor, undie] {
                                     manager->EquipObject(actor, undie, nullptr, 1, nullptr, true, false, false, false);
+                                    actor->Update3DModel();
                                 });
                                 logger::info("Equipped underwear to {}", actor->GetName());
                             }
