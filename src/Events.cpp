@@ -34,6 +34,7 @@ namespace Events {
                                 SKSE::GetTaskInterface()->AddTask([manager, actor, undie] {
                                     manager->EquipObject(actor, undie, nullptr, 1, nullptr, true, false, false, false);
                                     actor->Update3DModel();
+                                    actor->InitInventoryIfRequired();
                                 });
                                 logger::info("Equipped underwear to {}", actor->GetName());
                             }
