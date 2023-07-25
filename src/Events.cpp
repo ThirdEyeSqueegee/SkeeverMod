@@ -31,7 +31,9 @@ namespace Events {
                             if (inv.contains(undie)) {
                                 logger::info("{} has underwear in inventory", actor->GetName());
                                 const auto manager = RE::ActorEquipManager::GetSingleton();
-                                manager->EquipObject(actor, undie, nullptr, 1, nullptr, true, false, false, false);
+                                SKSE::GetTaskInterface()->AddTask([manager, actor, undie] {
+                                    manager->EquipObject(actor, undie, nullptr, 1, nullptr, true, false, false, false);
+                                });
                                 logger::info("Equipped underwear to {}", actor->GetName());
                             }
                         }
