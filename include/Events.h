@@ -17,21 +17,4 @@ namespace Events {
 
         static void Register();
     };
-
-    class OnCellAttachEventHandler : public RE::BSTEventSink<RE::TESCellAttachDetachEvent> {
-    protected:
-        OnCellAttachEventHandler() = default;
-
-    public:
-        OnCellAttachEventHandler(const OnCellAttachEventHandler&) = delete;
-        OnCellAttachEventHandler(OnCellAttachEventHandler&&) = delete;
-        OnCellAttachEventHandler& operator=(const OnCellAttachEventHandler&) = delete;
-        OnCellAttachEventHandler& operator=(OnCellAttachEventHandler&&) = delete;
-
-        static OnCellAttachEventHandler* GetSingleton();
-
-        RE::BSEventNotifyControl ProcessEvent(const RE::TESCellAttachDetachEvent* a_event, RE::BSTEventSource<RE::TESCellAttachDetachEvent>* a_eventSource) override;
-
-        static void Register();
-    };
 }

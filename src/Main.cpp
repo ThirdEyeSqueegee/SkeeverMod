@@ -1,14 +1,14 @@
-#include "SKSE/Interfaces.h"
-#include "Logging.h"
 #include "Events.h"
+#include "Logging.h"
+#include "SKSE/Interfaces.h"
 #include "Settings.h"
 #include "Utility.h"
 
 void Listener(SKSE::MessagingInterface::Message* message) {
     if (message->type == SKSE::MessagingInterface::kDataLoaded) {
+        Settings::LoadSettings();
         Utility::InitUnderwear();
         Events::EquipEventHandler::Register();
-        Events::OnCellAttachEventHandler::Register();
     }
 }
 
@@ -22,8 +22,7 @@ SKSEPluginLoad(const SKSE::LoadInterface* skse) {
 
     Init(skse);
 
-    if (const auto messaging = SKSE::GetMessagingInterface();
-        !messaging->RegisterListener(Listener))
+    if (const auto messaging = SKSE::GetMessagingInterface(); !messaging->RegisterListener(Listener))
         return false;
 
     logger::info("{} has finished loading.", plugin->GetName());
