@@ -16,7 +16,8 @@ void Settings::LoadSettings() {
     ini.SetMultiKey();
     ini.LoadFile(R"(.\Data\SKSE\Plugins\Underwear.ini)");
 
-    debug_logging = ini.GetValue("Log", "Debug");
+    debug_logging = ini.GetBoolValue("Log", "Debug");
+
     if (debug_logging) {
         spdlog::get("Global")->set_level(spdlog::level::level_enum::debug);
         logger::debug("Debug logging enabled");
@@ -34,7 +35,8 @@ void Settings::LoadSettings() {
         logger::debug("Added 0x{:x} from {} to underwear vector", form_id, mod_name);
     }
 
-    for (const auto& [k, v] : underwear) logger::debug("Loaded underwear 0x{:x} from {}", k, v);
+    for (const auto& [k, v] : underwear)
+        logger::debug("Loaded underwear 0x{:x} from {}", k, v);
 
     logger::info("Loaded settings");
 }
