@@ -19,15 +19,17 @@ public:
     }
 
     inline static std::vector<RE::TESObjectARMO*> underwear;
+    inline static std::vector<RE::FormID> underwear_formids;
 
     static void InitUnderwear() {
         const auto handler = RE::TESDataHandler::GetSingleton();
-        for (const auto& [k, v] : Settings::underwear) {
-            if (!handler->LookupModByName(v))
-                logger::error("ERROR: {} not found", v);
-            const auto undie = handler->LookupForm<RE::TESObjectARMO>(k, v);
+        for (const auto& [form_id, mod] : Settings::underwear) {
+            if (!handler->LookupModByName(mod))
+                logger::error("ERROR: {} not found", mod);
+            const auto undie = handler->LookupForm<RE::TESObjectARMO>(form_id, mod);
             underwear.emplace_back(undie);
-            logger::info("Cached {} (0x{:x}) from {}", undie->GetName(), undie->GetFormID(), v);
+            underwear_formids.emplace_back(undie->GetFormID());
+            logger::info("Cached {} (0x{:x}) from {}", undie->GetName(), undie->GetFormID(), mod);
         }
     }
 };

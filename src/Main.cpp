@@ -9,7 +9,6 @@ void Listener(SKSE::MessagingInterface::Message* message) {
         Settings::LoadSettings();
         Utility::InitUnderwear();
         Events::OnEquipEventHandler::Register();
-        Events::OnContainerChangedEventHandler::Register();
     }
 }
 

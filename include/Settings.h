@@ -16,5 +16,6 @@ public:
     static void LoadSettings();
 
     inline static bool debug_logging = false;
+
     inline static std::vector<std::pair<std::uint32_t, std::string_view>> underwear;
 };

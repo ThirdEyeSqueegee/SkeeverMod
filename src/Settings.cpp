@@ -32,11 +32,7 @@ void Settings::LoadSettings() {
         const auto form_id = std::strtol(sv.substr(0, delim).data(), nullptr, 0);
         const auto mod_name = sv.substr(delim + 1);
         underwear.emplace_back(form_id, mod_name);
-        logger::debug("Added 0x{:x} from {} to underwear vector", form_id, mod_name);
     }
-
-    for (const auto& [k, v] : underwear)
-        logger::debug("Loaded underwear 0x{:x} from {}", k, v);
 
     logger::info("Loaded settings");
 }
