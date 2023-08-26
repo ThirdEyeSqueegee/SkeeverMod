@@ -12,7 +12,7 @@ namespace Hooks {
 
         inline static REL::Relocation<decltype(&Thunk)> func;
 
-        inline static constexpr std::size_t idx = (0xae0 - 0x830) / 0x8;
+        static constexpr std::size_t idx{ 86 }; // 0x56
     };
 
     class Load3D : public Singleton<Load3D> {
@@ -21,6 +21,6 @@ namespace Hooks {
 
         inline static REL::Relocation<decltype(&Thunk)> func;
 
-        inline static constexpr std::size_t idx = (0xb80 - 0x830) / 0x8;
+        static constexpr std::size_t idx{ 106 }; // 0x6a
     };
 }

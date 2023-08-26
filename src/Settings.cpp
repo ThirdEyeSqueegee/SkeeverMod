@@ -20,10 +20,10 @@ void Settings::LoadSettings() {
     ini.GetAllValues("General", "Underwear", underwear_ini_values);
 
     for (const auto& val : underwear_ini_values) {
-        const auto sv       = std::string_view(val.pItem);
-        const auto delim    = sv.find('~');
-        const auto form_id  = std::strtol(sv.substr(0, delim).data(), nullptr, 0);
-        const auto mod_name = sv.substr(delim + 1);
+        const auto view{ std::string_view(val.pItem) };
+        const auto delim{ view.find('~') };
+        const auto form_id{ std::strtol(view.substr(0, delim).data(), nullptr, 0) };
+        const auto mod_name{ view.substr(delim + 1) };
         underwear.emplace_back(form_id, mod_name);
     }
 
