@@ -1,6 +1,7 @@
 #include "Logging.h"
 
-void InitializeLogging() {
+void InitializeLogging() noexcept
+{
     auto path{ SKSE::log::log_directory() };
     if (!path)
         stl::report_and_fail("Unable to lookup SKSE logs directory.");
@@ -18,5 +19,5 @@ void InitializeLogging() {
 
     set_default_logger(std::move(log));
 
-    spdlog::set_pattern("[%H:%M:%S.%e] [%l] [%t] [%s:%#] %v");
+    spdlog::set_pattern("[%T.%e UTC%z] [%L] [%t] [%s:%#] %v");
 }

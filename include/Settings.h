@@ -1,10 +1,11 @@
 #pragma once
 
-class Settings : public Singleton<Settings> {
+class Settings : public Singleton<Settings>
+{
 public:
-    static void LoadSettings();
+    static void LoadSettings() noexcept;
 
     inline static bool debug_logging{};
 
-    inline static std::vector<std::pair<std::uint32_t, std::string_view>> underwear;
+    inline static std::vector<std::pair<std::uint32_t, std::string_view>> underwear{};
 };

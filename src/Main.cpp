@@ -5,15 +5,18 @@
 
 #include "SKSE/Interfaces.h"
 
-void Listener(SKSE::MessagingInterface::Message* message) {
-    if (message->type <=> SKSE::MessagingInterface::kDataLoaded == 0) {
+void Listener(SKSE::MessagingInterface::Message* message) noexcept
+{
+    if (message->type <=> SKSE::MessagingInterface::kDataLoaded == 0)
+    {
         Settings::LoadSettings();
         Utility::InitUnderwear();
         Hooks::Install();
     }
 }
 
-SKSEPluginLoad(const SKSE::LoadInterface* skse) {
+SKSEPluginLoad(const SKSE::LoadInterface* skse)
+{
     InitializeLogging();
 
     const auto plugin{ SKSE::PluginDeclaration::GetSingleton() };
