@@ -8,9 +8,9 @@ namespace Hooks
     {
     public:
         // 2nd arg is a hack to place return value in rdx, thanks to Nukem, Noah, Parapets, and aers for explaining
-        static RE::ObjectRefHandle* Thunk(RE::Character* a_this, RE::ObjectRefHandle* a_hidden_return_argument, RE::TESBoundObject* a_item,
-                                          std::int32_t a_count, RE::ITEM_REMOVE_REASON a_reason, RE::ExtraDataList* a_extraList,
-                                          RE::TESObjectREFR* a_moveToRef, const RE::NiPoint3* a_dropLoc, const RE::NiPoint3* a_rotate) noexcept;
+        static RE::ObjectRefHandle* Thunk(RE::Character* a_this, RE::ObjectRefHandle* a_hidden_return_argument, RE::TESBoundObject* a_item, std::int32_t a_count,
+                                          RE::ITEM_REMOVE_REASON a_reason, RE::ExtraDataList* a_extraList, RE::TESObjectREFR* a_moveToRef, const RE::NiPoint3* a_dropLoc,
+                                          const RE::NiPoint3* a_rotate) noexcept;
 
         inline static REL::Relocation<decltype(&Thunk)> func;
 

@@ -1,28 +1,21 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
   "name": "underwear",
-  "version-semver": "1.0.2",
-  "dependencies": [
-    "commonlibsse-ng",
-    "simpleini"
-  ],
+  "version-semver": "1.0.3",
+  "dependencies": ["commonlibsse-ng", "simpleini"],
   "license": "GPL-3.0-or-later",
   "vcpkg-configuration": {
     "default-registry": {
       "kind": "git",
       "repository": "https://github.com/microsoft/vcpkg",
-      "baseline": "436a061a544c124200200517b9ee55c5bb1b7a26"
+      "baseline": "4a600e9fea71bd7872080cbb716797e04d30e6d3"
     },
     "registries": [
       {
         "kind": "git",
         "repository": "https://gitlab.com/colorglass/vcpkg-colorglass",
         "baseline": "6309841a1ce770409708a67a9ba5c26c537d2937",
-        "packages": [
-          "commonlibsse-ng",
-          "script-extender-common",
-          "skse"
-        ]
+        "packages": ["commonlibsse-ng"]
       }
     ]
   }
