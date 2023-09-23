@@ -20,13 +20,14 @@ namespace Hooks
         const auto worn{ a_this->GetWornArmor(body_slot, true) };
         const auto result{ func(a_this, a_hidden_return_argument, a_item, a_count, a_reason, a_extraList, a_moveToRef, a_dropLoc, a_rotate) };
 
-        if (!worn || !a_moveToRef || !a_this)
+        if (!worn || !a_moveToRef || !a_this || !a_item)
             return result;
 
         if (!a_this->GetActorBase())
             return result;
 
-        if (!a_moveToRef->IsPlayerRef() || a_this->IsPlayerTeammate() || a_this->IsChild())
+        if (!a_moveToRef->IsPlayerRef() || a_this->IsPlayerTeammate() || a_this->IsChild() || !a_this->HasKeywordString("ActorTypeNPC"sv)
+            || a_this->HasKeywordString("ManakinRace"sv))
             return result;
 
         if (const auto armo{ a_item->As<RE::TESObjectARMO>() })
@@ -75,7 +76,7 @@ namespace Hooks
         if (!a_this->GetActorBase())
             return result;
 
-        if (a_this->IsPlayerRef() || a_this->IsPlayerTeammate() || a_this->IsChild())
+        if (a_this->IsPlayerRef() || a_this->IsPlayerTeammate() || a_this->IsChild() || !a_this->HasKeywordString("ActorTypeNPC"sv) || a_this->HasKeywordString("ManakinRace"sv))
             return result;
 
         std::jthread([=] {

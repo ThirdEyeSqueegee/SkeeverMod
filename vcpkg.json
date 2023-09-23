@@ -1,14 +1,14 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
   "name": "underwear",
-  "version-semver": "1.0.3",
+  "version-semver": "1.0.4",
   "dependencies": ["commonlibsse-ng", "simpleini"],
   "license": "GPL-3.0-or-later",
   "vcpkg-configuration": {
     "default-registry": {
       "kind": "git",
       "repository": "https://github.com/microsoft/vcpkg",
-      "baseline": "4a600e9fea71bd7872080cbb716797e04d30e6d3"
+      "baseline": "78ba9711d30c64a6b40462c72f356c681e2255f3"
     },
     "registries": [
       {
