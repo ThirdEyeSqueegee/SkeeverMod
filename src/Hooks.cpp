@@ -26,9 +26,12 @@ namespace Hooks
         if (!a_this->GetActorBase())
             return result;
 
-        if (!a_moveToRef->IsPlayerRef() || a_this->IsPlayerTeammate() || a_this->IsChild() || !a_this->HasKeywordString("ActorTypeNPC"sv)
-            || a_this->HasKeywordString("ManakinRace"sv))
+        if (!a_moveToRef->IsPlayerRef() || a_this->IsPlayerTeammate() || a_this->IsChild() || !a_this->HasKeywordString("ActorTypeNPC"sv))
             return result;
+
+        if (const auto race{ a_this->GetRace() })
+            if (!strcmp(race->GetFormEditorID(), "ManakinRace"))
+                return result;
 
         if (const auto armo{ a_item->As<RE::TESObjectARMO>() })
         {
@@ -76,8 +79,12 @@ namespace Hooks
         if (!a_this->GetActorBase())
             return result;
 
-        if (a_this->IsPlayerRef() || a_this->IsPlayerTeammate() || a_this->IsChild() || !a_this->HasKeywordString("ActorTypeNPC"sv) || a_this->HasKeywordString("ManakinRace"sv))
+        if (a_this->IsPlayerRef() || a_this->IsPlayerTeammate() || a_this->IsChild() || !a_this->HasKeywordString("ActorTypeNPC"sv))
             return result;
+
+        if (const auto race{ a_this->GetRace() })
+            if (!strcmp(race->GetFormEditorID(), "ManakinRace"))
+                return result;
 
         std::jthread([=] {
             std::this_thread::sleep_for(2s);
