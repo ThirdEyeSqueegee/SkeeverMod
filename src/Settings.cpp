@@ -12,8 +12,7 @@ void Settings::LoadSettings() noexcept
 
     debug_logging = ini.GetBoolValue("Log", "Debug");
 
-    if (debug_logging)
-    {
+    if (debug_logging) {
         spdlog::get("Global")->set_level(spdlog::level::level_enum::debug);
         logger::debug("Debug logging enabled");
     }
@@ -21,8 +20,7 @@ void Settings::LoadSettings() noexcept
     CSimpleIniA::TNamesDepend underwear_ini_values;
     ini.GetAllValues("General", "Underwear", underwear_ini_values);
 
-    for (const auto& val : underwear_ini_values)
-    {
+    for (const auto& val : underwear_ini_values) {
         const auto view{ std::string_view(val.pItem) };
         const auto delim{ view.find('~') };
         const auto form_id{ std::strtol(view.substr(0, delim).data(), nullptr, 0) };
