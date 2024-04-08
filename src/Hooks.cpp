@@ -34,7 +34,7 @@ namespace Hooks
                 return result;
 
         if (const auto armo{ a_item->As<RE::TESObjectARMO>() }) {
-            if (const auto armo_form_id{ armo->GetFormID() }; armo->GetSlotMask() <=> body_slot == 0 && armo_form_id <=> worn->GetFormID() == 0) {
+            if (const auto armo_form_id{ armo->GetFormID() }; armo->HasPartOf(body_slot) && armo_form_id <=> worn->GetFormID() == 0) {
                 if (Utility::underwear_formids.contains(armo_form_id))
                     return result;
 
