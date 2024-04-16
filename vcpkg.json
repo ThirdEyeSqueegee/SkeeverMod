@@ -1,22 +1,22 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
-  "name": "underwear",
-  "version-semver": "1.0.6",
-  "dependencies": ["commonlibsse-ng", "simpleini"],
-  "license": "GPL-3.0-or-later",
+  "name": "thenewgentleman",
+  "dependencies": [
+    "simpleini",
+    "rsm-binary-io",
+    "directxtk",
+    "rapidcsv",
+    "spdlog",
+    "catch2"
+  ],
+  "description": "The New Gentleman",
+  "homepage": "https://github.com/ModiLogist/TheNewGentleman/tree/master/src",
+  "license": "MIT",
   "vcpkg-configuration": {
     "default-registry": {
       "kind": "git",
       "repository": "https://github.com/microsoft/vcpkg",
-      "baseline": "70fd7df7a9e2d3d47ab6bf87fc7347a6c2d06fda"
-    },
-    "registries": [
-      {
-        "kind": "git",
-        "repository": "https://gitlab.com/colorglass/vcpkg-colorglass",
-        "baseline": "6309841a1ce770409708a67a9ba5c26c537d2937",
-        "packages": ["commonlibsse-ng"]
-      }
-    ]
+      "baseline": "42ee04ed4525b833c03b14657e020ee6426fe864"
+    }
   }
 }
