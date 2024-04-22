@@ -79,7 +79,7 @@ namespace Hooks
                 if (!a_this->GetActorBase())
                     return;
 
-                if (a_this->IsPlayerRef() || a_this->IsPlayerTeammate() || a_this->IsChild() || !a_this->HasKeywordString("ActorTypeNPC"sv))
+                if (!a_this->IsDead() || a_this->IsPlayerRef() || a_this->IsPlayerTeammate() || a_this->IsChild() || !a_this->HasKeywordString("ActorTypeNPC"sv))
                     return;
 
                 if (const auto race{ a_this->GetRace() })
