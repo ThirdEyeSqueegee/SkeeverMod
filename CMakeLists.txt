@@ -62,7 +62,7 @@ set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>" CACHE STR
 
 project(
 	${NAME}
-	VERSION 1.0.7
+	VERSION 1.1.0
 	LANGUAGES CXX
 )
 
