@@ -55,23 +55,11 @@
     },
     {
       "name": "vs2022-windows-vcpkg-universal",
-      "inherits": [
-        "cmake-dev",
-        "vcpkg",
-        "windows",
-        "vs2022",
-        "universal"
-      ]
+      "inherits": ["cmake-dev", "vcpkg", "windows", "vs2022", "universal"]
     },
     {
       "name": "vs2022-windows-vcpkg-vr",
-      "inherits": [
-        "cmake-dev",
-        "vcpkg",
-        "windows",
-        "vs2022",
-        "vr"
-      ]
+      "inherits": ["cmake-dev", "vcpkg", "windows", "vs2022", "vr"]
     }
   ],
   "buildPresets": [
