@@ -20,7 +20,7 @@ namespace Hooks
     class Load3D : public Singleton<Load3D>
     {
     public:
-        static RE::NiAVObject* Thunk(RE::Character* a_this, bool a_arg1) noexcept;
+        static RE::NiAVObject* Thunk(RE::Character* a_this, bool a_arg1);
 
         inline static REL::Relocation<decltype(&Thunk)> func;
 

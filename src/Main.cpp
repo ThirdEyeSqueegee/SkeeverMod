@@ -5,48 +5,31 @@
 
 void Listener(SKSE::MessagingInterface::Message* message) noexcept
 {
-    if (message->type <=> SKSE::MessagingInterface::kDataLoaded == 0) {
+    if (message->type == SKSE::MessagingInterface::kDataLoaded) {
         Settings::LoadSettings();
         Utility::InitUnderwear();
         Hooks::Install();
     }
 }
 
-extern "C" __declspec(dllexport) constinit auto SKSEPlugin_Version = []() {
-    SKSE::PluginVersionData v;
-    v.PluginVersion(Version::MAJOR);
-    v.PluginName(Version::PROJECT);
-    v.AuthorName("ThirdEyeSqueegee");
-    v.UsesAddressLibrary(true);
-    v.UsesNoStructs(true);
-    v.CompatibleVersions({ SKSE::RUNTIME_SSE_LATEST_AE });
-    return v;
-}();
-
-
-extern "C" __declspec(dllexport) bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface*, SKSE::PluginInfo* aInfo)
-{
-    aInfo->infoVersion = SKSE::PluginInfo::kVersion;
-    aInfo->name        = Version::PROJECT.data();
-    aInfo->version     = Version::MAJOR;
-    return true;
-}
-
-extern "C" [[maybe_unused]] __declspec(dllexport) bool SKSEPlugin_Load(const SKSE::LoadInterface* aSkse)
+SKSEPluginLoad(const SKSE::LoadInterface* skse)
 {
     InitializeLogging();
 
     const auto plugin{ SKSE::PluginDeclaration::GetSingleton() };
+    const auto name{ plugin->GetName() };
     const auto version{ plugin->GetVersion() };
 
-    logger::info("{} {} is loading...", plugin->GetName(), version);
+    logger::info("{} {} is loading...", name, version);
 
-    SKSE::Init(aSkse);
+    Init(skse);
 
-    if (const auto messaging{ SKSE::GetMessagingInterface() }; !messaging->RegisterListener(Listener))
+    if (const auto messaging{ SKSE::GetMessagingInterface() }; !messaging->RegisterListener(Listener)) {
         return false;
+    }
 
-    logger::info("{} has finished loading.", plugin->GetName());
+    logger::info("{} has finished loading.", name);
+    logger::info("");
 
     return true;
 }

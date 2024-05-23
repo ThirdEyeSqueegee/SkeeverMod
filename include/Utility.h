@@ -26,8 +26,9 @@ public:
                 underwear_formids.emplace(undie->GetFormID());
                 logger::info("Cached {} (0x{:x}) from {}", undie->GetName(), undie->GetFormID(), mod);
             }
-            else
+            else {
                 logger::error("ERROR: {:x} not found in {}", form_id, mod);
+            }
         }
         if (underwear.empty()) {
             logger::error("ERROR: No underwear found in Underwear.ini. Please define at least one pair.");
@@ -37,5 +38,6 @@ public:
     }
 
     inline static std::vector<RE::TESObjectARMO*> underwear{};
-    inline static std::unordered_set<RE::FormID>  underwear_formids{};
+
+    inline static std::unordered_set<RE::FormID> underwear_formids{};
 };
