@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
   "name": "underwear",
   "version-semver": "1.2.1",
-  "builtin-baseline": "2fd62b5d878104f4092af80533923bfe2bba2ee0",
+  "builtin-baseline": "dee924de74e81388140a53c32a919ecec57d20ab",
   "dependencies": ["fmt", "spdlog", "rapidcsv", "simpleini", "directxtk"],
   "license": "GPL-3.0-or-later"
 }
