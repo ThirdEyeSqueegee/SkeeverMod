@@ -31,7 +31,12 @@ namespace Hooks
             return func(a_this, a_hidden_return_argument, a_item, a_count, a_reason, a_extraList, a_moveToRef, a_dropLoc, a_rotate);
         }
 
-        if (!a_moveToRef->IsPlayerRef() || a_this->IsPlayerTeammate() || a_this->IsChild() || !a_this->HasKeywordString("ActorTypeNPC"sv)) {
+        if (const auto actor_base{ a_this->GetActorBase() }; Utility::blacklist.contains(actor_base)) {
+            logger::debug("Skipping NPC {} ({:#x})", actor_base->GetName(), actor_base->GetFormID());
+            return func(a_this, a_hidden_return_argument, a_item, a_count, a_reason, a_extraList, a_moveToRef, a_dropLoc, a_rotate);
+        }
+
+        if (!a_moveToRef->IsPlayerRef() || a_this->IsPlayerTeammate() || a_this->IsChild() || !a_this->HasKeywordString("ActorTypeNPC")) {
             return func(a_this, a_hidden_return_argument, a_item, a_count, a_reason, a_extraList, a_moveToRef, a_dropLoc, a_rotate);
         }
 
@@ -42,34 +47,31 @@ namespace Hooks
         }
 
         if (const auto armo{ a_item->As<RE::TESObjectARMO>() }) {
-            if (const auto armo_form_id{ armo->GetFormID() }; armo->HasPartOf(body_slot) && armo_form_id <=> worn->GetFormID() == 0) {
+            if (const auto armo_form_id{ armo->GetFormID() }; armo->HasPartOf(body_slot) && armo_form_id == worn->GetFormID()) {
                 if (Utility::underwear_formids.contains(armo_form_id)) {
                     return func(a_this, a_hidden_return_argument, a_item, a_count, a_reason, a_extraList, a_moveToRef, a_dropLoc, a_rotate);
                 }
 
                 const auto actor_name{ a_this->GetName() };
                 const auto actor_form_id{ a_this->GetFormID() };
-                logger::debug("{} (0x{:x}): Slot 32 item {} (0x{:x}) being taken from inventory", actor_name, actor_form_id, armo->GetName(), armo_form_id);
+                logger::debug("{} ({:#x}): Slot 32 item {} ({:#x}) being taken from inventory", actor_name, actor_form_id, armo->GetName(), armo_form_id);
                 const auto inv{ a_this->GetInventory(RE::TESObjectREFR::DEFAULT_INVENTORY_FILTER, true) };
                 const auto manager{ RE::ActorEquipManager::GetSingleton() };
+
                 for (const auto& obj : inv | std::views::keys) {
                     if (!Utility::underwear_formids.contains(obj->GetFormID())) {
                         continue;
                     }
 
                     manager->EquipObject(a_this, obj, nullptr, 1, nullptr, true, false, false, false);
-                    logger::debug("{} (0x{:x}): Equipped existing {} (0x{:x}) found in inventory", actor_name, actor_form_id, obj->GetName(), obj->GetFormID());
+                    logger::debug("{} ({:#x}): Equipped existing {} ({:#x}) found in inventory", actor_name, actor_form_id, obj->GetName(), obj->GetFormID());
                     return func(a_this, a_hidden_return_argument, a_item, a_count, a_reason, a_extraList, a_moveToRef, a_dropLoc, a_rotate);
                 }
-                std::random_device            rd;
-                std::mt19937                  rng(rd());
-                const auto                    size{ static_cast<int>(Utility::underwear.size() - 1) };
-                std::uniform_int_distribution dist(0, size);
 
-                const auto undie{ Utility::underwear[dist(rng)] };
+                const auto undie{ Utility::GetRandomUnderwear() };
                 a_this->AddObjectToContainer(undie, nullptr, 1, nullptr);
                 manager->EquipObject(a_this, undie, nullptr, 1, nullptr, true, false, false, false);
-                logger::debug("Equipped {} (0x{:x}) to {} (0x{:x})", undie->GetName(), undie->GetFormID(), actor_name, actor_form_id);
+                logger::debug("Equipped {} ({:#x}) to {} ({:#x})", undie->GetName(), undie->GetFormID(), actor_name, actor_form_id);
             }
         }
 
@@ -109,7 +111,10 @@ namespace Hooks
         const auto actor_form_id{ a_this->GetFormID() };
         const auto manager{ RE::ActorEquipManager::GetSingleton() };
         const auto inv{ a_this->GetInventory(RE::TESObjectREFR::DEFAULT_INVENTORY_FILTER, true) };
-        bool       body_found{}, head_found{}, hands_found{}, feet_found{};
+        bool       body_found{};
+        bool       head_found{};
+        bool       hands_found{};
+        bool       feet_found{};
         for (const auto& item : inv | std::views::keys) {
             if (const auto armo{ item->As<RE::TESObjectARMO>() }) {
                 const auto armo_name{ armo->GetName() };
@@ -117,22 +122,22 @@ namespace Hooks
                 if (armo->HasPartOf(hands_slot) && !hands_worn && !hands_found) {
                     hands_found = true;
                     manager->EquipObject(a_this, armo, nullptr, 1, nullptr, true, false, false, false);
-                    logger::debug("{} (0x{:x}): Equipped hands slot item {} (0x{:x}) found in inventory on 3D load", actor_name, actor_form_id, armo_name, armo_form_id);
+                    logger::debug("{} ({:#x}): Equipped hands slot item {} ({:#x}) found in inventory on 3D load", actor_name, actor_form_id, armo_name, armo_form_id);
                 }
                 if (armo->HasPartOf(feet_slot) && !feet_worn && !feet_found) {
                     feet_found = true;
                     manager->EquipObject(a_this, armo, nullptr, 1, nullptr, true, false, false, false);
-                    logger::debug("{} (0x{:x}): Equipped feet slot item {} (0x{:x}) found in inventory on 3D load", actor_name, actor_form_id, armo_name, armo_form_id);
+                    logger::debug("{} ({:#x}): Equipped feet slot item {} ({:#x}) found in inventory on 3D load", actor_name, actor_form_id, armo_name, armo_form_id);
                 }
                 if (armo->HasPartOf(head_slot) && !head_worn && !head_found) {
                     head_found = true;
                     manager->EquipObject(a_this, armo, nullptr, 1, nullptr, true, false, false, false);
-                    logger::debug("{} (0x{:x}): Equipped head slot item {} (0x{:x}) found in inventory on 3D load", actor_name, actor_form_id, armo_name, armo_form_id);
+                    logger::debug("{} ({:#x}): Equipped head slot item {} ({:#x}) found in inventory on 3D load", actor_name, actor_form_id, armo_name, armo_form_id);
                 }
                 if (armo->HasPartOf(body_slot) && !body_found) {
                     body_found = true;
                     manager->EquipObject(a_this, armo, nullptr, 1, nullptr, true, false, false, false);
-                    logger::debug("{} (0x{:x}): Equipped body slot item {} (0x{:x}) found in inventory on 3D load", actor_name, actor_form_id, armo_name, armo_form_id);
+                    logger::debug("{} ({:#x}): Equipped body slot item {} ({:#x}) found in inventory on 3D load", actor_name, actor_form_id, armo_name, armo_form_id);
                 }
             }
         }

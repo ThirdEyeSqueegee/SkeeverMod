@@ -17,15 +17,26 @@ void Settings::LoadSettings() noexcept
         logger::debug("Debug logging enabled");
     }
 
-    CSimpleIniA::TNamesDepend underwear_ini_values;
+    CSimpleIniA::TNamesDepend underwear_ini_values{};
     ini.GetAllValues("General", "Underwear", underwear_ini_values);
 
     for (const auto& val : underwear_ini_values) {
-        const auto view{ std::string_view(val.pItem) };
-        const auto delim{ view.find('~') };
-        const auto form_id{ std::strtol(view.substr(0, delim).data(), nullptr, 0) };
-        const auto mod_name{ view.substr(delim + 1) };
-        underwear.emplace_back(form_id, mod_name);
+        const std::string val_str{ val.pItem };
+        const auto        delim{ val_str.find('~') };
+        const auto        form_id{ static_cast<RE::FormID>(std::stoul(val_str.substr(0, delim), nullptr, 16)) };
+        const auto        plugin_name{ val_str.substr(delim + 1) };
+        underwear_vec.emplace_back(form_id, plugin_name);
+    }
+
+    CSimpleIniA::TNamesDepend blacklist_ini_values{};
+    ini.GetAllValues("Blacklist", "Ignore", blacklist_ini_values);
+
+    for (const auto& val : blacklist_ini_values) {
+        const std::string val_str{ val.pItem };
+        const auto        delim{ val_str.find('~') };
+        const auto        form_id{ static_cast<RE::FormID>(std::stoul(val_str.substr(0, delim), nullptr, 16)) };
+        const auto        plugin_name{ val_str.substr(delim + 1) };
+        blacklist_vec.emplace_back(form_id, plugin_name);
     }
 
     logger::info("Loaded settings");

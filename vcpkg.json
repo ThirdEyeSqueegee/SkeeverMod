@@ -1,8 +1,21 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
-  "name": "underwear",
-  "version-semver": "1.2.1",
-  "builtin-baseline": "dee924de74e81388140a53c32a919ecec57d20ab",
-  "dependencies": ["fmt", "spdlog", "rapidcsv", "simpleini", "directxtk"],
-  "license": "GPL-3.0-or-later"
+  "dependencies": ["commonlibsse-ng", "simpleini", "unordered-dense"],
+  "builtin-baseline": "3a747a4fc9210d87bb40e0d9b8a3588f046c914d",
+  "vcpkg-configuration": {
+    "registries": [
+      {
+        "kind": "git",
+        "baseline": "7b827d5fce4ec9ba4b1ca18f3a947f41bba20652",
+        "repository": "https://github.com/ThirdEyeSqueegee/CommonLibSSE-NG-vcpkg",
+        "packages": ["commonlibsse-ng"]
+      },
+      {
+        "kind": "git",
+        "baseline": "e376718dc96bd2a6431cc8f7b05eca555d51a123",
+        "repository": "https://github.com/ThirdEyeSqueegee/vcpkg-ports",
+        "packages": ["openvr", "spdlog"]
+      }
+    ]
+  }
 }
