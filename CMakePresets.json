@@ -9,7 +9,10 @@
       "name": "base",
       "hidden": true,
       "generator": "Ninja",
-      "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+      "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+      "cacheVariables": {
+        "CMAKE_WARN_DEPRECATED": false
+      }
     },
     {
       "name": "build-release",

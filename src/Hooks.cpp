@@ -58,6 +58,9 @@ namespace Hooks
                 const auto inv{ a_this->GetInventory(RE::TESObjectREFR::DEFAULT_INVENTORY_FILTER, true) };
                 const auto manager{ RE::ActorEquipManager::GetSingleton() };
 
+                logger::info("Unqeuipping {} ({:#x})", armo->GetName(), armo_form_id);
+                manager->UnequipObject(a_this, armo, nullptr, 1, nullptr, true, false, false, false);
+
                 for (const auto& obj : inv | std::views::keys) {
                     if (!Utility::underwear_formids.contains(obj->GetFormID())) {
                         continue;

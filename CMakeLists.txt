@@ -4,9 +4,13 @@ message("Using toolchain file ${CMAKE_TOOLCHAIN_FILE}.")
 # -------------------------------------------------- Setup project ----------------------------------------------------
 project(
   Underwear
-  VERSION 1.2.1
+  VERSION 1.2.2
   LANGUAGES CXX
 )
+
+if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.31)
+  cmake_policy(SET CMP0174 NEW)
+endif()
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
